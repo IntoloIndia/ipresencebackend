@@ -2,12 +2,13 @@ import express from "express";
 const router = express.Router();
 
 import {
-    //admin
-    //auth
-
-
+    CompanyController,
+    ProductKeyController,
+    PaymentController,
+    DepartmentController,
+    DesignationController,
+    EmployeeController
 } from '../controllers/index.js';
-
 
 //company
 // import auth from '../middlewares/auth.js';
@@ -23,15 +24,30 @@ import {
 // router.get('/pending-verify-payment', AdminDashboardController.pendingVerifyPayment);
 // router.put('/payment-verify', AdminDashboardController.paymentVerify);
 
-// // router.get('/me', userController.me);
-// router.post('/login', loginController.login);
-
-// router.post('/company-login', CompanyController.companyLogin);
 // router.get('/company', [auth, admin], CompanyController.index);
 // router.post('/company', CompanyController.store);
 // router.post('/company-logout', CompanyController.companyLogout);
 
-// router.post('/verify-product-key', ProductKeyController.verifyProductKey);
+router.post('/register-company', CompanyController.register);
+router.post('/verify-product-key', ProductKeyController.verifyProductKey);
+router.post('/payment', PaymentController.payment);
+
+router.post('/company-login', CompanyController.companyLogin);
+router.post('/company-logout', CompanyController.companyLogout);
+
+router.get('/department/:company_id', DepartmentController.index);
+router.post('/department', DepartmentController.store);
+router.get('/edit-department/:id', DepartmentController.edit);
+router.put('/update-department/:id', DepartmentController.update);
+router.delete('/department/:id', DepartmentController.destroy);
+
+router.get('/designation/:company_id', DesignationController.index);
+router.post('/designation', DesignationController.store);
+router.get('/designation-by-department/:department_id', DesignationController.designationByDepartment);
+
+router.get('/employee/:company_id', EmployeeController.index);
+router.post('/register-employee', EmployeeController.registerEmployee);
+router.post('/employee-login', EmployeeController.employeeLogin);
 
 
 export default router;
