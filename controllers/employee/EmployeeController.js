@@ -60,7 +60,8 @@ const EmployeeController = {
                                 employee_mobile: "$employee_mobile",
                                 employee_email: "$employee_email",
                             } 
-                        },        
+                        },
+                        count: { $sum: 1 } 
                     }
                 },
                 {
@@ -68,6 +69,7 @@ const EmployeeController = {
                         company_id:"$company_id",
                         department_id:"$_id",
                         department:"$department",
+                        employee_count:"$count",       
                         employeeList:"$employeeList"
                     }
                 }
@@ -84,7 +86,7 @@ const EmployeeController = {
         if (error) {
             return next(error);
         }
-        const { company_id, department_id, designation_id, employee_name, employee_mobile, employee_email } = req.body;
+        const { company_id, department_id, designation_id,  employee_name, employee_mobile, employee_email } = req.body;
         try {
             const exist = await Employee.exists({ company_id:company_id, employee_mobile:employee_mobile, employee_email:employee_email }).collation({ locale:'en', strength:1 });
             if (exist) {
@@ -124,7 +126,7 @@ const EmployeeController = {
         return res.send( CustomSuccessHandler.success("Employee created successfully") );
     },
 
-    async employeeLogin(req, res, next){
+    async loginEmployee(req, res, next){
         const employeeSchema = Joi.object({
             emp_id: Joi.string().required(),
             password: Joi.string().required(),
@@ -190,11 +192,39 @@ const EmployeeController = {
 
             await RefreshToken.create({ refresh_token: refresh_token });
         
-            return res.json({status:200, access_token, refresh_token, _id: employeeData._id, company_id:employeeData.company_id, company_name:employeeData.company_name, name: employeeData.employee_name, mobile:employeeData.employee_mobile, email:employeeData.employee_email});
+            return res.json({status:200, access_token, refresh_token, _id: employeeData._id, company_id:employeeData.company_id, company_name:employeeData.company_name, name:employeeData.employee_name, mobile:employeeData.employee_mobile, email:employeeData.employee_email});
         } catch (err) {
             return next(err);
         }
-    }   
+    },
+    
+    async logoutEmployee(req, res, next){
+        // validation
+        const refreshSchema = Joi.object({
+            user_id: Joi.string(),
+            refresh_token: Joi.string().required(),
+        });
+        const { error } = refreshSchema.validate(req.body);
+    
+        if (error) {
+            return next(error);
+        }
+        const {user_id, refresh_token} = req.body;
+        // const bodyData = {
+        //     user_id: user_id,
+        // }
+        try {
+            // const result = await AttendanceController.attendanceOutTime(bodyData);
+            // if (result.status === 200) {
+            //     await RefreshToken.deleteOne({ token: refresh_token });
+            // }
+            await RefreshToken.deleteOne({ refresh_token: refresh_token });
+        } catch(err) {
+            return next(new Error('Something went wrong in the database'));
+        }
+        return res.send({ status: 200 });
+    }
+    
 }
 
 export default EmployeeController;

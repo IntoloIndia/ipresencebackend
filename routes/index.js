@@ -7,7 +7,8 @@ import {
     PaymentController,
     DepartmentController,
     DesignationController,
-    EmployeeController
+    EmployeeController,
+    DeviceController
 } from '../controllers/index.js';
 
 //company
@@ -47,7 +48,11 @@ router.get('/designation-by-department/:department_id', DesignationController.de
 
 router.get('/employee/:company_id', EmployeeController.index);
 router.post('/register-employee', EmployeeController.registerEmployee);
-router.post('/employee-login', EmployeeController.employeeLogin);
+router.post('/login-employee', EmployeeController.loginEmployee);
+router.post('/logout-employee', EmployeeController.logoutEmployee);
+
+router.get('/device/:company_id', DeviceController.index);
+router.post('/device-config', DeviceController.deviceConfig);
 
 
 export default router;
