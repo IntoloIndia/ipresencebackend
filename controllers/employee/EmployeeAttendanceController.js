@@ -1,12 +1,10 @@
-import { EmployeeAttendance } from "../../models";
-import CustomErrorHandler from "../../services/CustomErrorHandler";
-import CustomSuccessHandler from "../../services/CustomSuccessHandler";
+import { EmployeeAttendance } from "../../models/index.js";
+import CustomSuccessHandler from "../../services/CustomSuccessHandler.js";
 import { ObjectId } from "mongodb";
-import CustomFunction from "../../services/CustomFunction";
+import CustomFunction from "../../services/CustomFunction.js";
 
 const EmployeeAttendanceController = {
   async attendance(req, res, next) {
-    console.log("object")
     const { company_id, user_id } = req.body;
 
     const year = CustomFunction.currentYearMonthDay("YYYY");

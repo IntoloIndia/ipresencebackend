@@ -1,6 +1,6 @@
 import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
-import CustomFunction from "../../services/CustomFunction";
+import CustomFunction from "../../services/CustomFunction.js";
 
 const date = CustomFunction.currentDate();
 const time = CustomFunction.currentTime();
