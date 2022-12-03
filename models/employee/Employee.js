@@ -6,6 +6,7 @@ const employeeSchema = mongoose.Schema({
     department_id:{type: ObjectId, required:true },
     designation_id:{type: ObjectId, required:true },
     emp_id:{type: String, required:true },
+    employee_code:{type: String, required:true },
     employee_name:{type: String, required:true },
     employee_mobile:{type: String, required:true },
     employee_email:{type: String, required:true },

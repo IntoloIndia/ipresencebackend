@@ -56,6 +56,7 @@ const EmployeeController = {
                                 _id: "$_id",
                                 designation_id: "$designation_id",
                                 designation: "$designationData.designation",
+                                employee_code: "$employee_code",
                                 employee_name: "$employee_name",
                                 employee_mobile: "$employee_mobile",
                                 employee_email: "$employee_email",
@@ -81,13 +82,27 @@ const EmployeeController = {
         return res.json({ status:200, data:documents });
     },
 
+    async employeeCount(req, res, next){
+        let documents = {};
+        const total_employee = await Employee.find({company_id:req.params.company_id}).count();
+        documents = {
+            total_employee
+        }
+        return res.json({ status:200, data:documents });
+    },
+
     async registerEmployee(req, res, next) {
         const { error } = employeeSchema.validate(req.body);
         if (error) {
             return next(error);
         }
-        const { company_id, department_id, designation_id,  employee_name, employee_mobile, employee_email } = req.body;
+        const { company_id, department_id, designation_id, employee_code, employee_name, employee_mobile, employee_email } = req.body;
         try {
+            const employee_code_exist = await Employee.exists({ company_id:company_id, employee_code:employee_code }).collation({ locale:'en', strength:1 });
+            if (employee_code_exist) {
+                return next( CustomErrorHandler.alreadyExist('Employee code is already exist') );
+            }
+
             const exist = await Employee.exists({ company_id:company_id, employee_mobile:employee_mobile, employee_email:employee_email }).collation({ locale:'en', strength:1 });
             if (exist) {
                 return next( CustomErrorHandler.alreadyExist('Employee is already exist') );
@@ -105,6 +120,7 @@ const EmployeeController = {
             designation_id,
             emp_id:unique_id,
             employee_name,
+            employee_code,
             employee_mobile,
             employee_email,
             password:hashedPassword
@@ -146,7 +162,6 @@ const EmployeeController = {
         }
         try {
             // const employeeData = await Employee.findOne({emp_id: req.body.emp_id});
-
             var employeeData;
             await Employee.aggregate([
                 {

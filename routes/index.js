@@ -51,6 +51,8 @@ router.post('/register-employee', EmployeeController.registerEmployee);
 router.post('/login-employee', EmployeeController.loginEmployee);
 router.post('/logout-employee', EmployeeController.logoutEmployee);
 
+router.get('/employee-count/:company_id', EmployeeController.employeeCount);
+
 router.get('/device/:company_id', DeviceController.index);
 router.post('/device-config', DeviceController.deviceConfig);
 
