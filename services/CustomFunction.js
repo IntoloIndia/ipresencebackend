@@ -5,7 +5,7 @@ const CustomFunction  = {
 
     currentDate(){
         const now = new Date();
-        const current_date = date.format(now, 'YYYY/MM/DD') // => '2015/01/02 23:14:05'
+        const current_date = date.format(now, 'YYYY-MM-DD') // => '2015/01/02 23:14:05'
         return current_date;
     },
 
