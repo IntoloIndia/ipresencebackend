@@ -10,6 +10,7 @@ import {
   EmployeeController,
   DeviceController,
   EmployeeAttendanceController,
+  CompanyTimingController,
 } from "../controllers/index.js";
 
 //company
@@ -45,19 +46,37 @@ router.delete("/department/:id", DepartmentController.destroy);
 
 router.get("/designation/:company_id", DesignationController.index);
 router.post("/designation", DesignationController.store);
-router.get("/designation-by-department/:department_id",DesignationController.designationByDepartment);
+router.get(
+  "/designation-by-department/:department_id",
+  DesignationController.designationByDepartment
+);
 
 router.get("/employee/:company_id", EmployeeController.index);
 router.post("/register-employee", EmployeeController.registerEmployee);
 router.post("/login-employee", EmployeeController.loginEmployee);
 router.post("/logout-employee", EmployeeController.logoutEmployee);
 
-router.get('/employee-count/:company_id', EmployeeController.employeeCount);
+router.get("/employee-count/:company_id", EmployeeController.employeeCount);
 
-router.get('/device/:company_id', DeviceController.index);
-router.post('/device-config', DeviceController.deviceConfig);
+router.get("/device/:company_id", DeviceController.index);
+router.post("/device-config", DeviceController.deviceConfig);
 
 //saurabh
-router.post("/employee-attendance", EmployeeAttendanceController.attendance);
+router.post(
+  "/employee-in-time-attendance",
+  EmployeeAttendanceController.inTimeAttendance
+);
+router.post(
+  "/employee-out-time-attendance",
+  EmployeeAttendanceController.OutTimeAttendance
+);
+
+router.get(
+  "/employee-attendance/:company_id/:year?/:month?/:user_id?",
+  EmployeeAttendanceController.index
+);
+
+router.post("/company-timing", CompanyTimingController.store);
+router.get("/company-timing/:company_id", CompanyTimingController.index);
 
 export default router;

@@ -5,4 +5,7 @@ export { default as DepartmentController } from "./department/DepartmentControll
 export { default as DesignationController } from "./designation/DesignationController.js";
 export { default as EmployeeController } from "./employee/EmployeeController.js";
 export { default as DeviceController } from "./device/DeviceController.js";
+
+//saurabh
 export { default as EmployeeAttendanceController } from "./employee/EmployeeAttendanceController.js";
+export { default as CompanyTimingController } from "./company/CompanyTimingController.js";

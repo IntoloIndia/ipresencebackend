@@ -9,3 +9,4 @@ export { default as Device } from "./device/Device.js";
 
 //saurabh
 export { default as EmployeeAttendance } from "./employee/EmployeeAttendance.js";
+export { default as CompanyTiming } from "./company/CompanyTiming.js";
